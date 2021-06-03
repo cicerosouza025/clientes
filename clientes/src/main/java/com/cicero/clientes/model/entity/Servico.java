@@ -5,25 +5,26 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "clientes")
-public class Cliente {
+@Table(name = "servicos")
+public class Servico {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(nullable = false, length = 150)
-    private String nome;
+    private String descricao;
 
-    @Column(nullable = false, length = 11)
-    private String cpf;
+    @ManyToOne
+    @JoinColumn(name = "id_cliente")
+    private Cliente cliente;
 
     @Column
-    private LocalDate dataCadastro;
+    private BigDecimal valor;
 }
