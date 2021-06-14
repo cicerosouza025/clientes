@@ -17,7 +17,7 @@ export class ClientesFormComponent implements OnInit {
   id: number;
 
   constructor( private service: ClientesService, private router: Router, private activatedRoute: ActivatedRoute) {
-    this.cliente = new Cliente();
+    this.cliente = new Cliente();  
    }
 
   ngOnInit(): void {
@@ -40,7 +40,18 @@ export class ClientesFormComponent implements OnInit {
   }
 
   onSubmit(){
-    this.service
+    if(this.id){
+      this.service
+        .atualizar(this.cliente)
+        .subscribe( response => {
+          this.success = true;
+          this.errors = null;
+        }, errorResponse => {
+          this.errors = ['Erro ao atualizar o cliente.']
+        })
+
+    }else{
+      this.service
       .salvar(this.cliente)
       .subscribe( response => {
         this.success = true;
@@ -50,6 +61,7 @@ export class ClientesFormComponent implements OnInit {
         this.success = false;
         this.errors = errorResponse.error.errors; 
       })
+    }
   }
 
 }
